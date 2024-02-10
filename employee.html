@@ -268,26 +268,26 @@
         </div>
         <div class="modal-body col-lg-11">
             <div class="row">
-              <div class="col-5">
-                  <div class="card" style="width: 23rem;">
-                      <div class="card-body m-4">
-                        <h5 class="card-title ">Upload CSV File</h5>
-                        <span class="card-text"><input type="file" class="btn btn-sm btn-primary "></span>
-                      </div>
+                <div class="col-5">
+                    <div class="card" style="width: 21rem;">
+                        <div class="card-body m-5">
+                            <h5 class="card-title ">Add Manually</h5>
+                            <span class="card-text"><button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Add</button></span>
+                            
+                            
+                            
+                        </div>
                     </div>
-              </div>
-              <div class="col-2"></div>
-              <div class="col-5">
-                  <div class="card" style="width: 21rem;">
-                      <div class="card-body m-4">
-                        <h5 class="card-title ">Add Manually</h5>
-                        <span class="card-text"><button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Add</button></span>
-                        
-                        
-  
+                </div>
+                <div class="col-1"></div>
+                <div class="col-5">
+                    <div class="card" style="width: 24rem;">
+                        <div class="card-body m-5">
+                          <h5 class="card-title ">Upload CSV File</h5>
+                          <span class="card-text"><input type="file" id="csvFileInput" accept=".csv" class="btn btn-sm btn-primary "><button class="btn my-2 btn-primary" onclick="parseCSV()">Add</button></span>
+                        </div>
                       </div>
-                    </div>
-              </div>
+                </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -297,7 +297,7 @@
     </div>
   </div>
   <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Add Employee Details</h1>
@@ -314,9 +314,9 @@
                     <input type="text" class="form-control" id="exampleInputlname">
                   </div>
                 <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Email address</label>
-                  <input type="email" class="form-control" required id="exampleInputEmail1" aria-describedby="emailHelp">
-                  <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                  <label for="exampleInputphone" class="form-label">Phone Number</label>
+                  <input type="number" class="form-control" required id="exampleInputphone" aria-describedby="phoneHelp">
+                  <div id="phoneHelp" class="form-text">We'll never share your Phone Number with anyone else.</div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -341,6 +341,34 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+
+    <script>
+        function parseCSV() {
+            var fileInput = document.getElementById('csvFileInput');
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    var csvContent = event.target.result;
+                    var rows = csvContent.split('\n');
+                    var data = [];
+                    var headers = rows[0].split(',');
+                    for (var i = 1; i < rows.length; i++) {
+                        var row = rows[i].split(',');
+                        var obj = {};
+                        for (var j = 0; j < headers.length; j++) {
+                            obj[headers[j]] = row[j];
+                        }
+                        data.push(obj);
+                    }
+                    console.log(JSON.stringify(data, null, 4));
+                };
+                reader.readAsText(file);
+            } else {
+                alert('Please select a file.');
+            }
+        }
+    </script>
 </body>
 
 </html>
