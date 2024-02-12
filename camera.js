@@ -1,3 +1,19 @@
+function createAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert', `alert-${type}`, 'alert-dismissible', 'fade', 'show');
+    alertDiv.setAttribute('role', 'alert');
+    alertDiv.innerHTML = `
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    const timeoutDuration = 3000;
+    setTimeout(() => {
+        alertDiv.remove();
+    }, timeoutDuration);
+    return alertDiv;
+}
+
+
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d");
 let infoPoints = document.querySelector(".points-info");
@@ -55,6 +71,8 @@ const newImage = src => {
 document.getElementById('submitBtn').addEventListener('click', function (event) {
     event.preventDefault();
     let form = document.getElementById('myForm');
+    let formCont = document.getElementById('formTab');
+
     let formData = new FormData(form);
 
     let formObject = {};
@@ -80,6 +98,8 @@ document.getElementById('submitBtn').addEventListener('click', function (event) 
             //responseTab.classList.add('active');
             cam_id = data.id;
             $('#formTabs a[href="#responseContent"]').tab('show');
+            const disabledLink = document.getElementById("formTab");
+            disabledLink.classList.add("disabled-link");
             let rtspFrameUrl = data.rtsp_frame;
             let baseUrl = 'http://127.0.0.1:8000';
             let fullImageUrl = baseUrl + rtspFrameUrl;
@@ -87,6 +107,7 @@ document.getElementById('submitBtn').addEventListener('click', function (event) 
             let responseImage = document.getElementById('responseImage');
             newImage(fullImageUrl)
             form.reset();
+            formCont.disabled=true;
         })
         .catch(error => {
             console.error('Error:', error);
@@ -106,11 +127,13 @@ document.getElementById('sendPolygonBtn').addEventListener('click', function () 
     })
         .then(response => response.json())
         .then(data => {
+            document.getElementById("alertContainer").appendChild(createAlert("Camera Added Successfully", "success"));
             clearTabContent(document.getElementById('responseContent'));
         })
         .catch(error => {
-            console.error('Error sending polygon coordinates:', error);
+            document.getElementById("alertContainer").appendChild(createAlert("Error sending polygon coordinates", "danger"));
         });
+    fetchDataForCards();
 });
 
 function clearTabContent(tabContent) {
@@ -160,16 +183,15 @@ function displayCards(data) {
         cardDiv.classList.add("col");
         
         const card = document.createElement("div");
-        card.classList.add("card");
         card.innerHTML = `
-            <div class="card">
-                <img src="${item.rtsp_frame}" class="card-img-top position-relative" alt="Camera Image">
+            <div class="card" style="width:18rem;margin:2rem;">
+                <img src=${item.rtsp_frame} style="height: 200px; object-fit: cover;"  class="card-img-top position-relative" alt="Camera Image">
                 <div class="card-body">
                     <h6 class="card-text">ID: ${item.id}</h6>
                     <h5 class="card-title">${item.name}</h5>
                 </div>
                 <!-- Cross icon -->
-                <button type="button" class="btn-close position-absolute top-0 end-0" aria-label="Close" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+                <button type="button" class="btn position-absolute bi-trash btn-sm text-danger top-0 end-0" aria-label="Close" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -182,7 +204,7 @@ function displayCards(data) {
                             <h6>Are you sure you want to remove this camera? This action cannot be undone.</h6>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary cardDelete">Yes</button>
+                            <button type="button" class="btn btn-primary cardDelete" data-bs-dismiss="modal">Yes</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                         </div>
                     </div>
@@ -209,13 +231,14 @@ function displayCards(data) {
                 return response.json();
             })
             .then(data => {
-                console.log('Camera deleted successfully:', data);
+                document.getElementById("alertContainer").appendChild(createAlert("Camera deleted successfully", "success"));
                 cardDiv.remove();
-                window.location.reload()
+                fetchDataForCards();
             })
             .catch(error => {
-                console.error('Error deleting camera:', error);
+                document.getElementById("alertContainer").appendChild(createAlert("Error deleting camera", "danger"));
             });
         });
     });
 }
+
