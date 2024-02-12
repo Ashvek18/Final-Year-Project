@@ -62,10 +62,10 @@ document.getElementById('submitBtn').addEventListener('click', function (event) 
         formObject[key] = value;
     });
 
-    fetch('http://127.0.0.1:8000/api/camera/', {
+    fetch('https://safe-gaurd-backend.vercel.app/api/camera/', {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3Nzc1MjUzLCJpYXQiOjE3MDc3NDUyNTMsImp0aSI6ImZkMDU4MDFlMGQxMDRhMjZhMDRmMzY1NDExNjBiZTk1IiwidXNlcl9pZCI6MX0.pORvN14cfbEJUHcFeRkDrXTcB_A3Oh2kxZsgdjn5J-4',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(formObject)
@@ -96,17 +96,16 @@ document.getElementById('submitBtn').addEventListener('click', function (event) 
 document.getElementById('sendPolygonBtn').addEventListener('click', function () {
     let polygons = document.querySelector(".points-info").textContent;
 
-    fetch(`http://127.0.0.1:8000/api/camera/${cam_id}/`, {
+    fetch(`https://safe-gaurd-backend.vercel.app/api/camera/${cam_id}/`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3Nzc1MjUzLCJpYXQiOjE3MDc3NDUyNTMsImp0aSI6ImZkMDU4MDFlMGQxMDRhMjZhMDRmMzY1NDExNjBiZTk1IiwidXNlcl9pZCI6MX0.pORvN14cfbEJUHcFeRkDrXTcB_A3Oh2kxZsgdjn5J-4',
         },
         body: JSON.stringify({ polygons: polygons })
     })
         .then(response => response.json())
         .then(data => {
-            $('#myModal').modal('hide');
             clearTabContent(document.getElementById('responseContent'));
         })
         .catch(error => {
