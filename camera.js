@@ -72,7 +72,6 @@ document.getElementById('submitBtn').addEventListener('click', function (event) 
     event.preventDefault();
     let form = document.getElementById('myForm');
     let formCont = document.getElementById('formTab');
-
     let formData = new FormData(form);
 
     let formObject = {};
@@ -83,58 +82,62 @@ document.getElementById('submitBtn').addEventListener('click', function (event) 
     fetch('https://safe-gaurd-backend.vercel.app/api/camera/', {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3Nzc1MjUzLCJpYXQiOjE3MDc3NDUyNTMsImp0aSI6ImZkMDU4MDFlMGQxMDRhMjZhMDRmMzY1NDExNjBiZTk1IiwidXNlcl9pZCI6MX0.pORvN14cfbEJUHcFeRkDrXTcB_A3Oh2kxZsgdjn5J-4',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3ODMwNjk1LCJpYXQiOjE3MDc4MDA2OTUsImp0aSI6ImJmOTVlMGM2MzRiODQ0MTM4ZjRkOGVkZDZhODE3MTU4IiwidXNlcl9pZCI6MX0.XUJSQinSFaEtLbKdaiq6pFnpJJolxFfYsSHot5IWnKU',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(formObject)
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-            let responseTab = document.getElementById('responseTab');
-            //let tab = document.getElementById('tab');
-            //tab.classList.add('disabled')
-            //responseTab.classList.remove('disabled');
-            //responseTab.classList.add('active');
-            cam_id = data.id;
-            $('#formTabs a[href="#responseContent"]').tab('show');
-            const disabledLink = document.getElementById("formTab");
-            disabledLink.classList.add("disabled-link");
-            let rtspFrameUrl = data.rtsp_frame;
-            let baseUrl = 'http://127.0.0.1:8000';
-            let fullImageUrl = baseUrl + rtspFrameUrl;
-            let responseContent = document.getElementById('responseContent');
-            let responseImage = document.getElementById('responseImage');
-            newImage(fullImageUrl)
-            form.reset();
-            formCont.disabled=true;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+    .then(response => response.json())
+    .then(data => {
+        let responseTab = document.getElementById('responseTab');
+        responseTab.classList.remove('disabled');
+        responseTab.classList.add('active');
+        let tab = document.getElementById('formTab');
+        responseTab.classList.remove('active');
+        tab.classList.add('disabled');
+
+        cam_id = data.id;
+        $('#formTabs a[href="#responseContent"]').tab('show');
+        const disabledLink = document.getElementById("formTab");
+        disabledLink.classList.add("disabled-link");
+        let fullImageUrl = 'http://127.0.0.1:8000' + data.rtsp_frame;
+        newImage(fullImageUrl)
+        form.reset();
+        formCont.disabled = true;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 });
+
 
 document.getElementById('sendPolygonBtn').addEventListener('click', function () {
     let polygons = document.querySelector(".points-info").textContent;
-
-    fetch(`https://safe-gaurd-backend.vercel.app/api/camera/${cam_id}/`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3Nzc1MjUzLCJpYXQiOjE3MDc3NDUyNTMsImp0aSI6ImZkMDU4MDFlMGQxMDRhMjZhMDRmMzY1NDExNjBiZTk1IiwidXNlcl9pZCI6MX0.pORvN14cfbEJUHcFeRkDrXTcB_A3Oh2kxZsgdjn5J-4',
-        },
-        body: JSON.stringify({ polygons: polygons })
-    })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("alertContainer").appendChild(createAlert("Camera Added Successfully", "success"));
-            clearTabContent(document.getElementById('responseContent'));
+    const poly = polygons.split(':');
+    if(poly.length===4 || poly.length===0){
+        fetch(`https://safe-gaurd-backend.vercel.app/api/camera/${cam_id}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3ODMwNjk1LCJpYXQiOjE3MDc4MDA2OTUsImp0aSI6ImJmOTVlMGM2MzRiODQ0MTM4ZjRkOGVkZDZhODE3MTU4IiwidXNlcl9pZCI6MX0.XUJSQinSFaEtLbKdaiq6pFnpJJolxFfYsSHot5IWnKU',
+            },
+            body: JSON.stringify({ polygons: polygons })
         })
-        .catch(error => {
-            document.getElementById("alertContainer").appendChild(createAlert("Error sending polygon coordinates", "danger"));
-        });
-    fetchDataForCards();
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("alertContainer").appendChild(createAlert("Camera Added Successfully", "success"));
+                clearTabContent(document.getElementById('responseContent'));
+            })
+            .catch(error => {
+                document.getElementById("alertContainer").appendChild(createAlert("Error sending polygon coordinates", "danger"));
+            });
+        fetchDataForCards();
+    }else{
+        event.preventDefault();
+        document.getElementById("alertContainer").appendChild(createAlert("Please select 4 coordinates only", "danger"));
+    }
 });
+
 
 function clearTabContent(tabContent) {
     let canvas = tabContent.querySelector('canvas');
@@ -144,11 +147,12 @@ function clearTabContent(tabContent) {
     pointsInfo.textContent = '';
 }
 
+
 function fetchDataForCards() {
     fetch('https://safe-gaurd-backend.vercel.app/api/camera/', {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3Nzc1MjUzLCJpYXQiOjE3MDc3NDUyNTMsImp0aSI6ImZkMDU4MDFlMGQxMDRhMjZhMDRmMzY1NDExNjBiZTk1IiwidXNlcl9pZCI6MX0.pORvN14cfbEJUHcFeRkDrXTcB_A3Oh2kxZsgdjn5J-4',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3ODMwNjk1LCJpYXQiOjE3MDc4MDA2OTUsImp0aSI6ImJmOTVlMGM2MzRiODQ0MTM4ZjRkOGVkZDZhODE3MTU4IiwidXNlcl9pZCI6MX0.XUJSQinSFaEtLbKdaiq6pFnpJJolxFfYsSHot5IWnKU',
             'Content-Type': 'application/json'
         }
     })
@@ -159,9 +163,8 @@ function fetchDataForCards() {
             return response.json();
         })
         .then(data => {
-            console.log('Fetched data for cards:', data);
             if (Array.isArray(data)) {
-                displayCards(data); 
+                displayCards(data);
             } else {
                 console.error('Fetched data is not an array:', data);
             }
@@ -171,21 +174,24 @@ function fetchDataForCards() {
         });
 }
 
-fetchDataForCards();
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetchDataForCards();
+});
 
 
 function displayCards(data) {
     const container = document.getElementById("cameraCards");
-    container.innerHTML = ""; 
-    
+    container.innerHTML = "";
+
     data.forEach(item => {
         const cardDiv = document.createElement("div");
         cardDiv.classList.add("col");
-        
+
         const card = document.createElement("div");
         card.innerHTML = `
-            <div class="card" style="width:18rem;margin:2rem;">
-                <img src=${item.rtsp_frame} style="height: 200px; object-fit: cover;"  class="card-img-top position-relative" alt="Camera Image">
+        <div class="card text-center" type="button" style="width:18rem;margin:2rem;" data-bs-toggle="modal" data-bs-target="#exampleModal4">
+        <img src='./static/img/card1.jpeg' style="height: 200px; object-fit: cover;"  class="card-img-top position-relative" alt="Camera Image">
                 <div class="card-body">
                     <h6 class="card-text">ID: ${item.id}</h6>
                     <h5 class="card-title">${item.name}</h5>
@@ -193,7 +199,7 @@ function displayCards(data) {
                 <!-- Cross icon -->
                 <button type="button" class="btn position-absolute bi-trash btn-sm text-danger top-0 end-0" aria-label="Close" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
             </div>
-            <!-- Modal -->
+            <!--delete Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -210,35 +216,51 @@ function displayCards(data) {
                     </div>
                 </div>
             </div>
-        `;
-        
+            <!--other modal-->
+            <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+            `;
+
         cardDiv.appendChild(card);
         container.appendChild(cardDiv);
 
-        const deleteButton = card.querySelector('.cardDelete');
-        deleteButton.addEventListener('click', function() {
+        card.querySelector('.cardDelete').addEventListener('click', function () {
             fetch(`https://safe-gaurd-backend.vercel.app/api/camera/${item.id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3Nzc1MjUzLCJpYXQiOjE3MDc3NDUyNTMsImp0aSI6ImZkMDU4MDFlMGQxMDRhMjZhMDRmMzY1NDExNjBiZTk1IiwidXNlcl9pZCI6MX0.pORvN14cfbEJUHcFeRkDrXTcB_A3Oh2kxZsgdjn5J-4',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3ODMwNjk1LCJpYXQiOjE3MDc4MDA2OTUsImp0aSI6ImJmOTVlMGM2MzRiODQ0MTM4ZjRkOGVkZDZhODE3MTU4IiwidXNlcl9pZCI6MX0.XUJSQinSFaEtLbKdaiq6pFnpJJolxFfYsSHot5IWnKU',
                     'Content-Type': 'application/json'
                 }
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById("alertContainer").appendChild(createAlert("Camera deleted successfully", "success"));
-                cardDiv.remove();
-                fetchDataForCards();
-            })
-            .catch(error => {
-                document.getElementById("alertContainer").appendChild(createAlert("Error deleting camera", "danger"));
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById("alertContainer").appendChild(createAlert("Camera deleted successfully", "success"));
+                    cardDiv.remove();
+                    fetchDataForCards();
+                })
+                .catch(error => {
+                    document.getElementById("alertContainer").appendChild(createAlert("Error deleting camera", "danger"));
+                });
         });
     });
 }
-
