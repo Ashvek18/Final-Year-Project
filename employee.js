@@ -66,7 +66,7 @@ function makePostRequest(data) {
     fetch('https://safe-gaurd-backend.vercel.app/api/employee/', {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTI4MTE0LCJpYXQiOjE3MDc4OTgxMTQsImp0aSI6IjUxMGFjMjBhYTRmYTRjZTU4NWQ0MTFlZmU5MzdmZmQyIiwidXNlcl9pZCI6MX0.Yir9-wFfQo6NOwVdCbcGwwKLB8PSn7V2gl8Spxt1yWE',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTU4NzUyLCJpYXQiOjE3MDc5Mjg3NTIsImp0aSI6IjE4YWQwZTYzN2NkMjRiMDFiZDFjMDdjY2NhMWY3NjkyIiwidXNlcl9pZCI6MX0.hQBydxZlDqGoTOD3_aGv3f1OcyRokFwtQfyceqCjgbY',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
@@ -103,7 +103,7 @@ document.querySelector('#employee-form').addEventListener('click', function (eve
     fetch('https://safe-gaurd-backend.vercel.app/api/employee/', {
         method: 'POST',
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTI4MTE0LCJpYXQiOjE3MDc4OTgxMTQsImp0aSI6IjUxMGFjMjBhYTRmYTRjZTU4NWQ0MTFlZmU5MzdmZmQyIiwidXNlcl9pZCI6MX0.Yir9-wFfQo6NOwVdCbcGwwKLB8PSn7V2gl8Spxt1yWE',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTU4NzUyLCJpYXQiOjE3MDc5Mjg3NTIsImp0aSI6IjE4YWQwZTYzN2NkMjRiMDFiZDFjMDdjY2NhMWY3NjkyIiwidXNlcl9pZCI6MX0.hQBydxZlDqGoTOD3_aGv3f1OcyRokFwtQfyceqCjgbY',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
@@ -128,11 +128,12 @@ document.querySelector('#employee-form').addEventListener('click', function (eve
     fetchTable();
 });
 
+
 function fetchTable() {
     fetch('https://safe-gaurd-backend.vercel.app/api/employee/', {
         method: 'GET',
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTI4MTE0LCJpYXQiOjE3MDc4OTgxMTQsImp0aSI6IjUxMGFjMjBhYTRmYTRjZTU4NWQ0MTFlZmU5MzdmZmQyIiwidXNlcl9pZCI6MX0.Yir9-wFfQo6NOwVdCbcGwwKLB8PSn7V2gl8Spxt1yWE',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTU4NzUyLCJpYXQiOjE3MDc5Mjg3NTIsImp0aSI6IjE4YWQwZTYzN2NkMjRiMDFiZDFjMDdjY2NhMWY3NjkyIiwidXNlcl9pZCI6MX0.hQBydxZlDqGoTOD3_aGv3f1OcyRokFwtQfyceqCjgbY',
             'Content-Type': 'application/json'
         }
     })
@@ -149,12 +150,12 @@ function fetchTable() {
             data.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${item.id}</td>
+                    <td>${item.emp_id}</td>
                     <td>${item.first_name}</td>
                     <td>${item.last_name}</td>
                     <td>${item.phone}</td>
                     <td><i type="button" class="fa fa-user-edit" id="employeeEdit"></i></td>
-                    <td><i type="button" class="fa fa-trash text-danger" data-employee-id="${item.id}" id="employeeDelete"></i></td>
+                    <td><i type="button" class="fa fa-trash text-danger" onclick=deleteEmployee(${item.emp_id}); id="employeeDelete"></i></td>
                 `;
                 tbody.appendChild(row);
             });
@@ -168,4 +169,27 @@ function fetchTable() {
         console.error('Error fetching data:', error);
     });
 }
+fetchTable();
+
+function deleteEmployee(employeeId) {
+    fetch(`https://safe-gaurd-backend.vercel.app/api/employee/${employeeId}/`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTU4NzUyLCJpYXQiOjE3MDc5Mjg3NTIsImp0aSI6IjE4YWQwZTYzN2NkMjRiMDFiZDFjMDdjY2NhMWY3NjkyIiwidXNlcl9pZCI6MX0.hQBydxZlDqGoTOD3_aGv3f1OcyRokFwtQfyceqCjgbY'
+            ,'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to delete employee');
+        }
+        // Reload table after successful deletion
+        fetchTable();
+    })
+    .catch(error => {
+        console.error('Error deleting employee:', error);
+    });
+}
+
+// Call fetchTable to initially populate the table
 fetchTable();
