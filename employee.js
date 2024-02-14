@@ -183,7 +183,6 @@ function deleteEmployee(employeeId) {
         if (!response.ok) {
             throw new Error('Failed to delete employee');
         }
-        // Reload table after successful deletion
         fetchTable();
     })
     .catch(error => {
@@ -191,5 +190,4 @@ function deleteEmployee(employeeId) {
     });
 }
 
-// Call fetchTable to initially populate the table
 fetchTable();
