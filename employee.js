@@ -213,8 +213,7 @@ fetchTable();
 function editEmployee(emp_id) {
     document.getElementById('editempid').value = emp_id;
     document.getElementById('edit-form').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the form from submitting normally
-
+        event.preventDefault();
         const data = {
             emp_id:emp_id.toString(),
             first_name: document.getElementById('editfname').value,
@@ -222,7 +221,6 @@ function editEmployee(emp_id) {
             phone: document.getElementById('editphone').value
         };
 console.log(data);
-        // Send PATCH request to update employee details
         fetch(`https://safe-gaurd-backend.vercel.app/api/employee/${emp_id}/`, {
             method: 'PATCH',
             headers: {
@@ -240,7 +238,6 @@ console.log(data);
         .then(data => {
             document.getElementById("alertContainer").appendChild(createAlert("Employee Updated Successfully", "success"));
             console.log(data);
-            // Clear input fields and close modal
             document.getElementById('editfname').value = '';
             document.getElementById('editlname').value = '';
             document.getElementById('editphone').value = '';
