@@ -170,7 +170,7 @@ function fetchTable() {
                     <td>${item.first_name}</td>
                     <td>${item.last_name}</td>
                     <td>${item.phone}</td>
-                    <td><i type="button" class="fa fa-user-edit" id="employeeEdit" onclick="editEmployee(${item.emp_id})" data-bs-toggle="modal" data-bs-target="#exampleModalEdit"></i></td>
+                    <td>    <i type="button" class="fa fa-user-edit" id="employeeEdit" onclick="editEmployee('${item.emp_id}', '${item.first_name}', '${item.last_name}', '${item.phone}')" data-bs-toggle="modal" data-bs-target="#exampleModalEdit"></i>                    </td>
                     <td><i type="button" class="fa fa-trash text-danger" onclick="deleteEmployee(${item.emp_id})"; id="employeeDelete"></i></td>
                 `;
                 tbody.appendChild(row);
@@ -210,8 +210,11 @@ function deleteEmployee(employeeId) {
 fetchTable();
 
 // function to edit employee
-function editEmployee(emp_id) {
+function editEmployee(emp_id,first_name,last_name,phone) {
     document.getElementById('editempid').value = emp_id;
+    document.getElementById('editfname').value = first_name;
+    document.getElementById('editlname').value = last_name;
+    document.getElementById('editphone').value = phone;
     document.getElementById('edit-form').addEventListener('click', function(event) {
         event.preventDefault();
         const data = {
