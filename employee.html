@@ -103,7 +103,7 @@
 
 
             <!-- Table Start -->
-            <div class="table-responsive p-5">
+            <div class="table-responsive">
                 <h3 class="text-center border-bottom border-dark border-2  mb-4">EMPLOYEE DETAILS</h3>
                 <table class="table text-dark border border-dark border-2" >
                     <thead>
@@ -122,11 +122,13 @@
                 </tbody>
             </table>
         </div>
-        </div>
         <!-- Table End -->
         
         
     </div>
+</div>
+<div id="paginationContainer" >
+</div>
     
     <!-- Content End -->
     
@@ -205,7 +207,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputphone" class="form-label">Phone Number</label>
-                            <input type="number" class="form-control" required id="exampleInputphone"
+                            <input  class="form-control" maxlength="10" required id="exampleInputphone"
                                 aria-describedby="phoneHelp">
                         </div>
                 </div>
@@ -223,7 +225,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalEdit">Add Employee Details</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalEdit">Edit Employee</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="editForm">
@@ -254,6 +256,8 @@
             </div>
         </div>
     </div>
+
+            
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
