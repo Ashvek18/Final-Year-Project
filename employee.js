@@ -78,10 +78,11 @@ function parseFile() {
 
 //make post request to add employee
 function makePostRequest(data) {
+    console.log(data);
     fetch('https://safe-gaurd-backend.vercel.app/api/employee/', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjAyMjg2LCJpYXQiOjE3MDgxNzIyODYsImp0aSI6IjY0MGU2YTU1MjI3MTRiOGE4OTc5NmU1M2U2MmM3Y2QzIiwidXNlcl9pZCI6MX0.AxCW6-NZxv3tNKztAA44UozmNRZ1TkumCYklmeT6SJo',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjkxMDI1LCJpYXQiOjE3MDgyNjEwMjUsImp0aSI6ImM1ZjNmMjZkZDk4ODQ4Y2U4ZmQ0YjIwODAwNzEzMTFiIiwidXNlcl9pZCI6MX0.gM7OWjDnJ2EjbU_zr_di7uADTEmQyqjY_SAlI_MPZak',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
@@ -94,7 +95,6 @@ function makePostRequest(data) {
     })
     .then(data => {
         document.getElementById("alertContainer").appendChild(createAlert("Employee Added Successfully", "success"));
-        console.log(data);
         const fileInput = document.getElementById('csvFileInput');
         fileInput.value = '';
         $('#exampleModalToggle').modal('hide');
@@ -118,7 +118,7 @@ document.querySelector('#employee-form').addEventListener('click', function (eve
     fetch('https://safe-gaurd-backend.vercel.app/api/employee/', {
         method: 'POST',
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjAyMjg2LCJpYXQiOjE3MDgxNzIyODYsImp0aSI6IjY0MGU2YTU1MjI3MTRiOGE4OTc5NmU1M2U2MmM3Y2QzIiwidXNlcl9pZCI6MX0.AxCW6-NZxv3tNKztAA44UozmNRZ1TkumCYklmeT6SJo',
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjkxMDI1LCJpYXQiOjE3MDgyNjEwMjUsImp0aSI6ImM1ZjNmMjZkZDk4ODQ4Y2U4ZmQ0YjIwODAwNzEzMTFiIiwidXNlcl9pZCI6MX0.gM7OWjDnJ2EjbU_zr_di7uADTEmQyqjY_SAlI_MPZak',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
@@ -144,12 +144,11 @@ document.querySelector('#employee-form').addEventListener('click', function (eve
     });
 });
 
-
-function fetchTable() {
-    fetch('https://safe-gaurd-backend.vercel.app/api/employee/', {
+function fetchTable(pageNumber=1) {
+    fetch(`https://safe-gaurd-backend.vercel.app/api/employee/?page=${pageNumber}`, {
         method: 'GET',
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjAyMjg2LCJpYXQiOjE3MDgxNzIyODYsImp0aSI6IjY0MGU2YTU1MjI3MTRiOGE4OTc5NmU1M2U2MmM3Y2QzIiwidXNlcl9pZCI6MX0.AxCW6-NZxv3tNKztAA44UozmNRZ1TkumCYklmeT6SJo',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjkxMDI1LCJpYXQiOjE3MDgyNjEwMjUsImp0aSI6ImM1ZjNmMjZkZDk4ODQ4Y2U4ZmQ0YjIwODAwNzEzMTFiIiwidXNlcl9pZCI6MX0.gM7OWjDnJ2EjbU_zr_di7uADTEmQyqjY_SAlI_MPZak',
             'Content-Type': 'application/json'
         }
     })
@@ -170,11 +169,16 @@ function fetchTable() {
                     <td>${item.first_name}</td>
                     <td>${item.last_name}</td>
                     <td>${item.phone}</td>
-                    <td>    <i type="button" class="fa fa-user-edit" id="employeeEdit" onclick="editEmployee('${item.emp_id}', '${item.first_name}', '${item.last_name}', '${item.phone}')" data-bs-toggle="modal" data-bs-target="#exampleModalEdit"></i>                    </td>
-                    <td><i type="button" class="fa fa-trash text-danger" onclick="deleteEmployee(${item.emp_id})"; id="employeeDelete"></i></td>
+                    <td><i type="button" class="fa fa-user-edit" id="employeeEdit" onclick="editEmployee('${item.emp_id}', '${item.first_name}', '${item.last_name}', '${item.phone}')" data-bs-toggle="modal" data-bs-target="#exampleModalEdit"></i></td>
+                    <td><i type="button" class="fa fa-trash text-danger" onclick="deleteEmployee(${item.emp_id})" id="employeeDelete"></i></td>
                 `;
                 tbody.appendChild(row);
             });
+
+            // Check if there are more pages available
+            if (data.length === 10) {
+                createPagination(pageNumber + 1);
+            }
         } else {
             const row = document.createElement('tr');
             row.innerHTML = '<td colspan="6"><h5 class="text-center">No Employees Were Found</h5></td>';
@@ -185,14 +189,16 @@ function fetchTable() {
         console.error('Error fetching data:', error);
     });
 }
-fetchTable();
+
+
+
 
 //Function to Delete Employee
 function deleteEmployee(employeeId) {
     fetch(`https://safe-gaurd-backend.vercel.app/api/employee/${employeeId}/`, {
         method: 'DELETE',
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjAyMjg2LCJpYXQiOjE3MDgxNzIyODYsImp0aSI6IjY0MGU2YTU1MjI3MTRiOGE4OTc5NmU1M2U2MmM3Y2QzIiwidXNlcl9pZCI6MX0.AxCW6-NZxv3tNKztAA44UozmNRZ1TkumCYklmeT6SJo',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjkxMDI1LCJpYXQiOjE3MDgyNjEwMjUsImp0aSI6ImM1ZjNmMjZkZDk4ODQ4Y2U4ZmQ0YjIwODAwNzEzMTFiIiwidXNlcl9pZCI6MX0.gM7OWjDnJ2EjbU_zr_di7uADTEmQyqjY_SAlI_MPZak',
             'Content-Type': 'application/json'
         }
     })
@@ -223,11 +229,10 @@ function editEmployee(emp_id,first_name,last_name,phone) {
             last_name: document.getElementById('editlname').value,
             phone: document.getElementById('editphone').value
         };
-console.log(data);
         fetch(`https://safe-gaurd-backend.vercel.app/api/employee/${emp_id}/`, {
             method: 'PATCH',
             headers: {
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjAyMjg2LCJpYXQiOjE3MDgxNzIyODYsImp0aSI6IjY0MGU2YTU1MjI3MTRiOGE4OTc5NmU1M2U2MmM3Y2QzIiwidXNlcl9pZCI6MX0.AxCW6-NZxv3tNKztAA44UozmNRZ1TkumCYklmeT6SJo',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjkxMDI1LCJpYXQiOjE3MDgyNjEwMjUsImp0aSI6ImM1ZjNmMjZkZDk4ODQ4Y2U4ZmQ0YjIwODAwNzEzMTFiIiwidXNlcl9pZCI6MX0.gM7OWjDnJ2EjbU_zr_di7uADTEmQyqjY_SAlI_MPZak',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
@@ -252,4 +257,56 @@ console.log(data);
     });
 }
 
+// create pagination
+function createPagination(totalPages) {
+    const paginationContainer = document.getElementById("paginationContainer");
+    paginationContainer.innerHTML = ""; 
+
+    const nav = document.createElement("nav");
+    nav.setAttribute("aria-label", "Page navigation example");
+
+    const ul = document.createElement("ul");
+    ul.classList.add("pagination", "justify-content-center");
+
+    for (let i = 1; i <= totalPages; i++) {
+        const pageLi = document.createElement("li");
+        pageLi.classList.add("page-item");
+
+        const pageLink = document.createElement("button");
+        pageLink.classList.add("page-link");
+        pageLink.setAttribute("type", "button");
+        pageLink.textContent = "Page "+i;
+
+        pageLink.addEventListener("click", function() {
+            fetchTable(i);
+            updateActivePage(i);
+        });
+
+        if (i === 1) {
+            pageLi.classList.add("active");
+        }
+
+        pageLi.appendChild(pageLink);
+        ul.appendChild(pageLi);
+    }
+
+    nav.appendChild(ul);
+    paginationContainer.appendChild(nav);
+}
+
+function updateActivePage(newPage) {
+    const currentPageLink = document.querySelector(".pagination .page-item.active .page-link");
+    if (currentPageLink) {
+        currentPageLink.parentElement.classList.remove("active");
+    }
+    const newPageLink = document.querySelector(`.pagination .page-item:nth-child(${newPage}) .page-link`);
+    if (newPageLink) {
+        newPageLink.parentElement.classList.add("active");
+    }
+}
+
+function getCurrentPage() {
+    const activePage = document.querySelector(".pagination .page-item.active .page-link");
+    return activePage ? parseInt(activePage.textContent) : 1;
+}
 
