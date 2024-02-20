@@ -42,9 +42,8 @@ function fetchIncidents(pageNumber = 1) {
             `;
             tbody.appendChild(row);
     
-            // Call function to populate modal with incident data when row is clicked
             row.addEventListener('click', function() {
-                populateModalWithIncidentData(incident, camera); // Pass both incident and camera data
+                populateModalWithIncidentData(incident, camera); //pass both data
             });
         });
     
@@ -84,16 +83,14 @@ function fetchCamera(cameraId) {
 }
 
 function populateModalWithIncidentData(incidentData, cameraData) {
-    // Populate modal content with incident data
     document.getElementById("incidentIdCell").textContent = incidentData.id;
     document.getElementById("cameraNameCell").textContent = cameraData ? cameraData.name || 'N/A' : 'N/A';
     document.getElementById("cameraLocationCell").textContent = cameraData ? cameraData.location || 'N/A' : 'N/A';
     document.getElementById("timestampCell").textContent = incidentData.timestamp;
     document.getElementById("employeeCell").textContent = incidentData.employee;
     
-    // For the video path, set it as a link
     const videoPathCell = document.getElementById("videoPathCell");
-    videoPathCell.innerHTML = ''; // Clear previous content
+    videoPathCell.innerHTML = ''; 
     if (incidentData.video_path) {
         const videoPathLink = document.createElement('a');
         videoPathLink.href = incidentData.video_path;
