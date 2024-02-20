@@ -38,7 +38,7 @@ function fetchIncidents(pageNumber = 1) {
                 <td>${camera ? camera.name : 'N/A'}</td>
                 <td>${camera ? camera.location : 'N/A'}</td>
                 <td>${incident.timestamp}</td>
-                <td><button class="btn btn-info btn-sm z-1" ><i class="fa fa-search"></i> Identify</button></td>
+                <td><button class="btn btn-secondary btn-sm z-1" ><i class="fa fa-search"></i> Identify</button></td>
             `;
             tbody.appendChild(row);
     
