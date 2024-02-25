@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="img/icon.png" rel="icon">
+    <link href="static/img/icon.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,14 +21,29 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+    <style>
+        .feature-card {
+            height: 100%; /* Set a fixed height for all feature cards */
+        }
+        .feature-card img {
+        height: 200px; /* Adjust the height as needed */
+        object-fit: contain; /* Ensures the image covers the entire space */
+    }
+    .website-description {
+            margin-top: 20px; /* Adjust margin as needed */
+            padding: 20px;
+            background-color: #f8f9fa; /* Set background color as needed */
+            border-radius: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -46,43 +61,18 @@
         <div class="sidebar pe-4 pb-3 ">
             <nav class="navbar bg-light navbar-light">
                 <a href="overview.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><img src="img/icon.png" style="height: 50px;width: 50px;margin:4px;" alt="icon"></img>SAFEGUARD</h3>
+                    <h3 class="text-primary"><img src="static/img/icon.png" style="height: 50px;width: 50px;margin:4px;" alt="icon"></img>SAFEGUARD</h3>
                 </a>
-                <!-- <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="img/user.jpeg
-" alt="" style="width: 40px; height: 40px;">
-                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">Ashvek</h6>
-                        <span>Admin</span>
-                    </div>
-                </div> -->
+                
                 <div class="navbar-nav w-100">
                     <a href="overview.html" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Overview</a>
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>Elements</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="button.html" class="dropdown-item">Buttons</a>
-                            <a href="typography.html" class="dropdown-item">Typography</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
-                        </div>
-                    </div> -->
+                   
                     <a href="dashboard.html" class="nav-item nav-link "><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                     <a href="camera.html" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Camera</a>
                     <a href="employee.html" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Employee Details</a>
                     <a href="incident.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Incidents</a>
                     <a href="admin.html" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Admin</a>
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>Pages</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="signin.html" class="dropdown-item">Sign In</a>
-                            <a href="signup.html" class="dropdown-item">Sign Up</a>
-                            <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="admin.html" class="dropdown-item">Blank Page</a>
-                        </div>
-                    </div> -->
+                    
                 </div>
             </nav>
         </div>
@@ -101,72 +91,7 @@
                 </a>
                 
                 <div class="navbar-nav align-items-center ms-auto">
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Message</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpeg
-" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpeg
-" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpeg
-" alt="" style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
-                    </div> -->
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificatin</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">New user added</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Password changed</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a>
-                        </div>
-                    </div> -->
+                
                     <div class="form-check form-switch text-dark">
                         <input class="form-check-input " type="checkbox" role="switch" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Dark mode</label>
@@ -183,46 +108,83 @@
                         </div>
                     </div>
                 </div>
-            </nav>
-            <!-- Navbar End -->
-
-            <!--
-            <div class="row m-5">
-                <div class="col-4 mb-3 mb-sm-0">
-                  <div class="card bg-dark text-light">
-                    <div class="card-body">
-                      <h5 class="card-title text-light">Special title treatment</h5>
-                      <p class="card-text ">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
+            </nav>  
+            <h1 style="align-items: center;justify-content: center;">SafeGuard: Tackling Workplace Risks & Insurance Frauds</h1>
+            
+            <!-- features cards -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-light rounded d-flex flex-column p-4 feature-card">
+                            <!-- Feature Image -->
+                            <img src="/image 1.jpg" alt="Feature 1 Image" class="img-fluid mb-3">
+            
+                            <!-- Feature Information -->
+                            <div>
+                                <h5 class="mb-2">Real-time Safety Monitoring</h5>
+                                <p class="mb-0">
+                                    The core function ensures continuous real-time monitoring for workplace safety, fostering a proactive approach to identify and address potential risks, contributing to a secure environment.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+            
+
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-light rounded d-flex flex-column p-4 feature-card">
+                            <img src="/image 2.png" alt="Feature 2 Image" class="img-fluid mb-3">
+                            <div>
+                                <h5 class="mb-2">Recording and Face Recognition</h5>
+                                <p class="mb-0">
+                                    Upon detecting safety breaches, the system initiates automatic recording, capturing incidents, and storing precise timestamps, enhancing documentation for analysis and effective response strategies                                 
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-light rounded d-flex flex-column p-4 feature-card">
+                            <img src="/image 3.png" alt="Feature 2 Image" class="img-fluid mb-3">
+                            <div>
+                                <h5 class="mb-2">Dynamic Rule Configuration</h5>
+                                <p class="mb-0">
+                                    Empowering users, the rule-based configuration allows specific criteria for each camera. It detects items such as helmets, vests, gloves, glasses, tailoring surveillance to unique safety needs
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="bg-light rounded d-flex flex-column p-4 feature-card">
+                            <img src="/image 4.png" alt="Feature 2 Image" class="img-fluid mb-3">
+                            <div>
+                                <h5 class="mb-2">Incident Reporting and Logging</h5>
+                                <p class="mb-0">
+                                    The system's incident reporting swiftly sends email notifications for safety violations, maintaining centralized logs with essential information, accurate timestamps, and identifying individuals in safety breaches.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+            
                 </div>
-                <div class="col-4">
-                  <div class="card bg-dark text-light">
-                    <div class="card-body">
-                      <h5 class="card-title text-light">Special title treatment</h5>
-                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-4">
-                    <div class="card bg-dark text-light">
-                      <div class="card-body">
-                        <h5 class="card-title text-light">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            -->
+            </div>
 
+            <div class="website-description">
+                <h2>About Our Project</h2>
+                <p>
+                    The algorithm chosen for detecting safety gears is YOLOv5, with a modification to the backbone architecture using MobileNet. YOLOv5 is a state-of-the-art object detection algorithm known for its real-time performance and accuracy. The integration of MobileNet, a lightweight CNN, aims to enhance the efficiency of the model while maintaining high detection accuracy.
 
-
-
-           
+                    YOLOv5 is an object detection algorithm that divides the input image into a grid and predicts bounding boxes and class probabilities directly. The network architecture comprises multiple convolutional layers, enabling it to detect objects at various scales efficiently. YOLOv5 is chosen for its ability to balance speed and accuracy, making it suitable for real-time applications.
+                    
+                    MobileNet is a lightweight CNN architecture designed for resource-constrained environments, making it ideal for deployment on edge devices with limited computational power. By integrating MobileNet as the backbone of YOLOv5, we aim to improve the overall efficiency of the safety gear detection model.
+                                    
+                </p>
+            </div>
+            
         </div>
+
+        
         <!-- Content End -->
 
 
@@ -233,16 +195,16 @@
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="static/lib/chart/chart.min.js"></script>
+    <script src="static/lib/easing/easing.min.js"></script>
+    <script src="static/lib/waypoints/waypoints.min.js"></script>
+    <script src="static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="static/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="static/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <script src="static/js/main.js"></script>
 </body>
 
 </html>
